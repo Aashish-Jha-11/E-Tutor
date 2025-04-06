@@ -1,19 +1,26 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import path from 'path'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src')
+    }
+  },
   build: {
-    // Generate sourcemaps for better debugging
     sourcemap: true,
-    // Optimize asset size
     minify: 'terser',
-    // Ensure base path is properly set (useful for deployments)
     base: './',
     outDir: 'dist',
+    emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+      }
+    }
   },
-  // Optimize dependency pre-bundling
   optimizeDeps: {
     include: ['react', 'react-dom', 'framer-motion', 'react-icons', 'react-slick']
   }
